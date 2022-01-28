@@ -1,0 +1,129 @@
+colvarsTrajFrequency    100  
+
+colvar {
+  name HLDA
+  width 0.1
+
+  #angle to radian: 1 deg = 0.0174533 rad
+
+  customFunction (-0.41172466334038926) * sin(phi2 * 0.0174533) + (-0.18692882913332112) * cos(phi2 * 0.0174533) + (-0.7315848947746988) * sin(phi3 * 0.0174533) + (-0.4587593442997295) * cos(phi3 * 0.0174533) + (-0.1647537419827982) * sin(phi4 * 0.0174533) + (-0.05544848873615032) * cos(phi4 * 0.0174533) + (-0.07643167609473163) * sin(psi2 * 0.0174533) +  (0.008566013473727449) * cos(psi2 * 0.0174533) +  (-0.004369352752965455) * sin(psi3 * 0.0174533) +  (-0.002677160676995957) * cos(psi3 * 0.0174533) +  (0.0016781053567491552) * sin(psi5 * 0.0174533) +  (0.020865066828941837) * cos(psi5 * 0.0174533) +  (-0.06899404775197374) * sin(psi6 * 0.0174533) +  (0.08630199799353497) * cos(psi6 * 0.0174533) +  (-0.013864263146031822) * sin(psi7 * 0.0174533) +  (0.02941862222690474) * cos(psi7 * 0.0174533) 
+
+  dihedral {
+    name phi2
+    group1 { atomNumbers 1432 }
+    group2 { atomNumbers 1434 }
+    group3 { atomNumbers 1436 }
+    group4 { atomNumbers 1446 }
+    }
+
+  dihedral {
+    name phi3
+    group1 { atomNumbers 1446 }
+    group2 { atomNumbers 1448 }
+    group3 { atomNumbers 1450 }
+    group4 { atomNumbers 1465 }
+    }
+
+  dihedral {
+    name phi4
+    group1 { atomNumbers 1465 }
+    group2 { atomNumbers 1467 }
+    group3 { atomNumbers 1469 }
+    group4 { atomNumbers 1472 }
+    }
+
+  dihedral {
+    name psi2
+    group1 { atomNumbers 1420 }
+    group2 { atomNumbers 1422 }
+    group3 { atomNumbers 1432 }
+    group4 { atomNumbers 1434 }
+    }
+
+ dihedral {
+    name psi3
+    group1 { atomNumbers 1434 }
+    group2 { atomNumbers 1436 }
+    group3 { atomNumbers 1446 }
+    group4 { atomNumbers 1448 }
+    }
+
+  dihedral {
+    name psi5
+    group1 { atomNumbers 1467 }
+    group2 { atomNumbers 1469 }
+    group3 { atomNumbers 1472 }
+    group4 { atomNumbers 1474 }
+    }
+
+  dihedral {
+    name psi6
+    group1 { atomNumbers 1474 }
+    group2 { atomNumbers 1476 }
+    group3 { atomNumbers 1486 }
+    group4 { atomNumbers 1488 }
+    }
+
+  dihedral {
+    name psi7
+    group1 { atomNumbers 1488 }
+    group2 { atomNumbers 1490 }
+    group3 { atomNumbers 1505 }
+    group4 { atomNumbers 1507 }
+    }
+
+  upperboundary 2.0
+  lowerboundary -2.0
+}
+
+colvar {
+  name RMSD_loop
+
+  width 0.05  
+
+  rmsd {
+    atoms {
+      atomNumbers 1389 1408 1427 1441 1455 1474 1481 1495 1514
+    }
+    refPositionsFile     reference_loop.pdb  # Fetch initial positions from this file
+    #refPositionsCol      B
+    #refPositionsColValue 1.0
+  }
+  
+  
+   upperboundary 10.0
+   lowerboundary 0.0
+}
+
+colvar {
+  name RMSD_helix
+
+  width 0.05
+
+  rmsd {
+    atoms {
+      atomNumbers 1389 1408 1427 1441 1455 1474 1481 1495 1514
+
+    }
+    refPositionsFile     reference_helix.pdb  # Fetch initial positions from this file
+    #refPositionsCol      B
+    #refPositionsColValue 1.0
+  }
+
+
+   upperboundary 10.0
+   lowerboundary 0.0
+}
+
+
+metadynamics {
+  name     meta_hlda # Run name
+  colvars  HLDA # List the name of the CVs
+  hillWeight              0.3  # The height of the Gaussian hills
+  newHillFrequency        500  # The frequency of hills deposition
+  writeHillsTrajectory    on
+  hillwidth               3.0
+  wellTempered            on
+  biasTemperature         5700 #bias factor 20  
+  keepFreeEnergyFiles     on
+}
